@@ -1,0 +1,73 @@
+<html>
+    <title>GIF</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rancho&effect=shadow-multiple">
+    <style>
+        h1{
+            font-family: Rancho;
+            color: red;
+            text-align: center;
+            font-size: 48;
+        }
+
+        #gif{
+            text-align: center;
+        }
+
+        img{
+            border: 10px solid black;
+            border-radius: 12px;
+        }
+
+        input{
+            background-color: white;
+            color: black;
+            border: 2px solid gray;
+            font-size: 25px;
+            padding: 10px 12px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+
+function run(){
+
+    var r = new XMLHttpRequest();
+
+    r.open('GET','https://api.giphy.com/v1/gifs/random?api_key=FlFCTPPfYNVBWhk907ZyxeeME21BEiS1');
+
+    
+    var url;     
+    
+    $(document).ready(function(){
+        r.onload = function() {
+            var response = r.response;
+            var parsedData = JSON.parse(response); 
+            url = parsedData.data.images.original.url; 
+            var i = document.createElement('img');
+            i.src = url;
+            console.log(url);
+            if (document.getElementById("gif").getElementsByTagName("img").length > 0){
+                console.log("Inside");
+                document.getElementById("gif").replaceChild(i,document.getElementById("gif").getElementsByTagName("img")[0]);
+            }
+            else{
+                document.getElementById("gif").appendChild(i);
+            }
+            
+        }
+    });
+
+    r.send();
+}
+</script>
+<body>
+    <h1 class="font-effect-shadow-multiple">Get ur Random GIF</h1>
+    <div id="gif">
+            <input type="button" value="Click me" onclick="run()">
+            <br><br>
+    </div>
+</body>
+</html>
